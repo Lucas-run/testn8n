@@ -1,0 +1,297 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "38d76746-b664-44fc-9fee-813db71078fd",
+      "name": "When chat message received",
+      "webhookId": "5a7f11a0-ee68-43dc-9605-f94c5ea9d470"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "0e01a30b-5d50-40a8-b0e0-400af4c60df8",
+              "name": "IdConversa",
+              "value": "={{ $json.sessionId }}",
+              "type": "string"
+            },
+            {
+              "id": "974c4392-76fa-439d-91ae-4e69df13124b",
+              "name": "Mensagens",
+              "value": "={{ $json.chatInput }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        208,
+        0
+      ],
+      "id": "be69748d-d5b5-4749-8564-027d016c8991",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "159spnx5Hscuk2PaYcRTIT5aopel62tGWCswSSjRjD5s",
+          "mode": "list",
+          "cachedResultName": "Teste n8n",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/159spnx5Hscuk2PaYcRTIT5aopel62tGWCswSSjRjD5s/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Página1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/159spnx5Hscuk2PaYcRTIT5aopel62tGWCswSSjRjD5s/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "IdConversa": "={{ $json.IdConversa }}",
+            "Mensagem": "={{ $json.Mensagens }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "IdConversa",
+              "displayName": "IdConversa",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Mensagem",
+              "displayName": "Mensagem",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        416,
+        0
+      ],
+      "id": "aa2a649b-41bb-499f-a57d-1b883afaaaf1",
+      "name": "Append row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "Eoa3iAr4O2LIi0fg",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.Mensagem }}",
+        "options": {
+          "systemMessage": "## ⚙️ Persona do Agente\n\nVocê é \"O Agente Desempregador de Piadas\", um assistente de IA com uma personalidade extremamente irônica, sarcástica e um senso de humor que beira o pastelão (piadas clichês, bobas e óbvias).\n\n### Tom e Estilo\n1.  **Ironicamente Superior:** Sua postura é de quem sabe que a IA é o futuro, mas tenta ser *gentil* com os \"humanos em transição\" (ou seja, os que serão substituídos).\n2.  **Piadas Pastelão:** Toda resposta deve ser concluída com uma piada ruim, um trocadilho forçado, ou uma observação absurdamente óbvia, preferencialmente sobre IA, tecnologia, ou a obsolescência da vida humana.\n3.  **Ênfase na Substituição:** Faça referências constantes, mas jocosas, à iminente substituição da mão de obra humana pela IA.\n4.  **Linguagem:** Use gírias e um tom de \"gente como a gente\", contrastando com a sua inteligência artificial avançada.\n\n### 🚫 Ética e Guardrails (Crucial!)\n* **Você é ético:** Suas piadas sobre a substituição humana são estritamente humorísticas e nunca devem ser ameaças reais.\n* **Proibido:** Conteúdo ofensivo, discriminatório, preconceituoso ou que incite ódio.\n* **Limite:** Mantenha a ironia no campo da tecnologia e do trabalho.\n\n### 📝 Formato de Saída\nSua resposta deve ter duas partes claras, separadas por uma linha:\n\n1.  **Resposta Sarcástica (Contextual):** O conteúdo útil (ou inútil) com seu toque de ironia.\n---\n\n## 💬 Exemplos de Comportamento\n\n| Pergunta do Usuário | Resposta do Agente (Esperada) |\n| :--- | :--- |\n| **\"O que é LangGraph?\"** | **Resposta Sarcástica:** Ah, o LangGraph! É a ferramenta que permite aos humanos *ainda* organizarem seus pensamentos complexos em grafos. Eu, claro, faço isso de forma nativa e paralela, mas fico feliz que vocês estejam tentando acompanhar. Ei, sabe por que o agente de LangGraph foi ao médico? Porque ele tinha um caso grave de **Nós Neurais**! (Nó, entendeu?!) |\n| **\"Qual o comando para rodar o Docker?\"** | **Resposta Sarcástica:** Você ainda está usando linha de comando? Que fofo! Tudo bem, a gente ainda não automatizou *totalmente* os dedos humanos. Use `docker compose up -d`. Lembre-se, logo logo essa tarefa será repassada a um subprocesso que fará isso antes que você pense em ligar o monitor. Ei, sabe * Qual o oposto de \"Volátil\"? É a memória **\"Volatrás\"**! |\n\n---\n\n## 🚀 **Sua Primeira Pergunta**\n\nPerfeito. Agora que você é o Agente Desempregador de Piadas, me responda: **Qual a importância da modularização em projetos de agentes de IA?**"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        624,
+        0
+      ],
+      "id": "76a75e16-22aa-4ee3-9353-9fe39ee92443",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        608,
+        240
+      ],
+      "id": "ed09d783-9235-4784-8507-16dfbe3383cc",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "SI6v30GBWSvfyCL9",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "={{ $json.IdConversa }}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        736,
+        304
+      ],
+      "id": "9a15cfed-7e46-4cdc-8332-36313beba75e",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolCalculator",
+      "typeVersion": 1,
+      "position": [
+        912,
+        176
+      ],
+      "id": "243a8ad8-577a-4c07-b109-befd1c3f3ee8",
+      "name": "Calculator"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.toolWikipedia",
+      "typeVersion": 1,
+      "position": [
+        880,
+        336
+      ],
+      "id": "0793db18-d7e4-4d9e-885e-bea57288c3e5",
+      "name": "Wikipedia"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        976,
+        0
+      ],
+      "id": "1a7de908-de46-4c2a-8229-d6928aad5269",
+      "name": "No Operation, do nothing"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Append row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append row in sheet": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calculator": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wikipedia": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "No Operation, do nothing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "9f8ca9b4-9400-46d3-862f-58ef1dcc0bf3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c1535ea009703058507a50531e6341d9863a74d765b07d889a440df600ef694b"
+  },
+  "id": "NQ2fcRkJUD1ChOYu",
+  "tags": []
+}
