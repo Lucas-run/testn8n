@@ -31,10 +31,44 @@ services:
 
       # (Opcional, mas útil para o Code Node)
       # Mapeia uma pasta local 'local_files' para ser acessível dentro do n8n
-      # - ./local_files:/files
+      - ./local_files:/files
+
+    networks:
+      - automacao # <-- conecta o n8n na rede compartilhada
+
+  waha:
+    # Usa a imagem oficial do WAHA.
+    image: devlikeapro/waha:latest
+
+    # nome do container para fácil referência
+    container_name: waha-api
+
+    # restart automático
+    restart: unless-stopped
+
+    # Mapeamento de portas: Host:Container. A porta 3000 é a padrão do WAHA.
+    ports:
+      - "3000:3000"
+
+    environment:
+      - WAHA_API_KEY=${WAHA_API_KEY}
+
+    # Mapeamento de Volume para persistência de dados do WAHA.
+    volumes:
+      - waha_data:/data
+
+    # Conexão com a rede compartilhada
+    networks:
+      - automacao
+
+# Redes compartilhadas entre os containers
+networks:
+  automacao:
+    driver: bridge
 
 # Definição do Volume.
 # Usar um volume nomeado (n8n_data) é preferível a um bind mount para dados críticos do n8n,
 # pois melhora a performance e evita problemas de permissão.
 volumes:
   n8n_data:
+  waha_data:
